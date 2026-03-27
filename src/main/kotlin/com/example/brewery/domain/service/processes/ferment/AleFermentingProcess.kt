@@ -1,6 +1,7 @@
-package com.example.brewery.domain.service
+package com.example.brewery.domain.service.processes.ferment
 
 import com.example.brewery.domain.model.BeerStyle
+import com.example.brewery.domain.model.BoilAddition
 import com.example.brewery.domain.model.BrewProcessCommand
 import com.example.brewery.domain.model.BrewProcessResult
 import com.example.brewery.domain.model.BrewProcessStage
@@ -14,10 +15,10 @@ import kotlinx.coroutines.flow.flow
 import org.springframework.stereotype.Component
 
 @Component
-class AleBrewingProcess : BrewProcess {
+class AleFermentingProcess : BrewProcess {
 
-    override fun supports(type: BrewProcessType): Boolean =
-        type == BrewProcessType.ALE
+    override fun supports(command: BrewProcessCommand): Boolean =
+        command.processType == BrewProcessType.FERMENT && command.yeastKind == YeastKind.ALE
 
     override fun run(command: BrewProcessCommand): Flow<BrewProcessResult> = flow {
         emit(
@@ -28,14 +29,11 @@ class AleBrewingProcess : BrewProcess {
             )
         )
 
-        require(command.temperature in 0.0..40.0) {
-            "Temperature must be between 0 and 40 °C"
+        require(command.temperature in 15.0..24.0) {
+            "Ale yeast requires a temperature between 15 and 24 °C"
         }
         require(command.yeastKind == YeastKind.ALE) {
             "Ale brewing requires ALE yeast"
-        }
-        require(command.temperature in 15.0..24.0) {
-            "Ale yeast requires a temperature between 15 and 24 °C"
         }
 
         emit(

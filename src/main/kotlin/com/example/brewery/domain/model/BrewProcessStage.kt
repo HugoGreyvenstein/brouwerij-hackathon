@@ -4,6 +4,7 @@ enum class BrewProcessStage {
     RECEIVED,
     VALIDATED,
     FERMENTING,
+    BOILING,
     COMPLETED,
     FAILED,
 }

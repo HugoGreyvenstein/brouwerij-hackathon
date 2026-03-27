@@ -17,7 +17,7 @@ class RunBrewProcess(
 ) : ForRunningBrewProcess {
 
     override fun invoke(command: BrewProcessCommand): Flow<BrewProcessResult> {
-        val brewProcess = brewProcesses.firstOrNull { it.supports(command.processType) }
+        val brewProcess = brewProcesses.firstOrNull { it.supports(command) }
             ?: throw IllegalArgumentException("Unsupported brew process type: ${command.processType}")
 
         return brewProcess.run(command)
@@ -27,11 +27,15 @@ class RunBrewProcess(
                         batchId = command.batchId,
                         processType = command.processType,
                         yeastKind = command.yeastKind,
+                        boilAddition = command.boilAddition,
+                        maltKind = command.maltKind,
                         temperature = command.temperature,
                         stage = result.stage,
                         output = result.output,
                     )
                 )
+
+                brewBatchRepository.incrementCounters(command)
             }
     }
 }
