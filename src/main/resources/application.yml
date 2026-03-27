@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: brewery
+server:
+  port: 8080
