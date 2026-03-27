@@ -6,7 +6,6 @@ import com.example.brewery.adapter.websocket.mapper.BrewProcessResponseMapper
 import com.example.brewery.domain.model.BrewProcessResult
 import com.example.brewery.domain.model.BrewProcessStage
 import com.example.brewery.domain.port.ForRunningBrewProcess
-import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -18,6 +17,7 @@ import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.WebSocketMessage
 import org.springframework.web.reactive.socket.WebSocketSession
 import reactor.core.publisher.Mono
+import tools.jackson.databind.ObjectMapper
 
 @Component
 class BrewingWebSocketHandler(
