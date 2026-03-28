@@ -1,5 +1,6 @@
 package com.example.brewery.domain.service.processes.ferment
 
+import com.example.brewery.adapter.storage.CounterStorageImpl
 import com.example.brewery.domain.model.BeerStyle
 import com.example.brewery.domain.model.BrewProcessCommand
 import com.example.brewery.domain.model.BrewProcessResult
@@ -14,7 +15,9 @@ import kotlinx.coroutines.flow.flow
 import org.springframework.stereotype.Component
 
 @Component
-class LagerFermentingProcess : BrewProcess {
+class LagerFermentingProcess(
+    private val counterStorage: CounterStorageImpl
+) : BrewProcess {
 
     override fun supports(command: BrewProcessCommand): Boolean =
         command.processType == BrewProcessType.FERMENT && command.yeastKind == YeastKind.LAGER
@@ -56,14 +59,15 @@ class LagerFermentingProcess : BrewProcess {
 
         delay(1000)
 
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.COMPLETED,
-                output = BeerStyle.Lager,
-                message = "Lager fermentation completed",
-            )
+        val result = BrewProcessResult(
+            batchId = command.batchId,
+            stage = BrewProcessStage.COMPLETED,
+            output = BeerStyle.Lager,
+            message = "Lager fermentation completed",
         )
+        counterStorage.save(result)
+        println("Result with updated values: $result")
+        emit(result)
     }.catch { exception ->
         emit(
             BrewProcessResult(

@@ -1,5 +1,6 @@
 package com.example.brewery.domain.service.processes.mash
 
+import com.example.brewery.adapter.storage.CounterStorageImpl
 import com.example.brewery.domain.model.BeerStyle
 import com.example.brewery.domain.model.BrewProcessCommand
 import com.example.brewery.domain.model.BrewProcessResult
@@ -15,7 +16,9 @@ import kotlinx.coroutines.flow.flow
 import org.springframework.stereotype.Component
 
 @Component
-class LightMashingProcess : BrewProcess {
+class LightMashingProcess(
+    private val counterStorage: CounterStorageImpl
+) : BrewProcess {
 
     override fun supports(command: BrewProcessCommand): Boolean =
         command.processType == BrewProcessType.MASH && command.maltKind == MaltKind.LIGHT
@@ -56,14 +59,15 @@ class LightMashingProcess : BrewProcess {
 
         delay(1000)
 
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.COMPLETED,
-                output = BeerStyle.Light,
-                message = "Light malt mashing completed",
-            )
+        val result = BrewProcessResult(
+            batchId = command.batchId,
+            stage = BrewProcessStage.COMPLETED,
+            output = BeerStyle.Light,
+            message = "Light malt mashing completed",
         )
+        counterStorage.save(result)
+        println("Result with updated values: $result")
+        emit(result)
     }.catch { exception ->
         emit(
             BrewProcessResult(
