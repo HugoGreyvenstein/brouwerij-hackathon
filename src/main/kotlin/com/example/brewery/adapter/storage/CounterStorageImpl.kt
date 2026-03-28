@@ -50,8 +50,7 @@ class CounterStorageImpl : CountStorage {
             setAllValues(brewProcessResult)
         } else if (beerStyle == BeerStyle.Hoppy || beerStyle == BeerStyle.Spicy) {
             if (mashed1 < 1 && mashed2 < 1) {
-                // TODO throw with message You do not have enough mashes to boil, please do a mash...
-                return
+                throw Exception("Not enough mashes to perform a boil, please mash more")
             } else if (mashed1 > mashed2) {
                 mashed1 -= 1
                 if (beerStyle == BeerStyle.Hoppy) {
@@ -110,7 +109,7 @@ class CounterStorageImpl : CountStorage {
                 setAllValues(brewProcessResult)
                 return
             }
-            // TODO throw with message Not enough boils to ferment, please boil more mashes
+            throw Exception("Not enough boils to ferment, please boil more mashes")
         }
     }
 
