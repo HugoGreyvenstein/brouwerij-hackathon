@@ -24,38 +24,12 @@ class AleFermentingProcess(
         command.processType == BrewProcessType.FERMENT && command.yeastKind == YeastKind.ALE
 
     override fun run(command: BrewProcessCommand): Flow<BrewProcessResult> = flow {
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.RECEIVED,
-                message = "Input received",
-            )
-        )
-
         require(command.temperature in 15.0..24.0) {
             "Ale yeast requires a temperature between 15 and 24 °C"
         }
         require(command.yeastKind == YeastKind.ALE) {
             "Ale brewing requires ALE yeast"
         }
-
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.VALIDATED,
-                message = "Input validated",
-            )
-        )
-
-        delay(500)
-
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.FERMENTING,
-                message = "Ale fermentation started",
-            )
-        )
 
         delay(1000)
 

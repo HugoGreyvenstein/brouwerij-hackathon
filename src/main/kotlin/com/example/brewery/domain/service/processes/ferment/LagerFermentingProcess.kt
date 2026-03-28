@@ -23,39 +23,12 @@ class LagerFermentingProcess(
         command.processType == BrewProcessType.FERMENT && command.yeastKind == YeastKind.LAGER
 
     override fun run(command: BrewProcessCommand): Flow<BrewProcessResult> = flow {
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.RECEIVED,
-                message = "Input received",
-            )
-        )
-
-
         require(command.temperature in 7.0..13.0) {
             "Lager yeast requires a temperature between 7 and 13 °C"
         }
         require(command.yeastKind == YeastKind.LAGER) {
             "Lager brewing requires LAGER yeast"
         }
-
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.VALIDATED,
-                message = "Input validated",
-            )
-        )
-
-        delay(500)
-
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.FERMENTING,
-                message = "Lager fermentation started",
-            )
-        )
 
         delay(1000)
 

@@ -23,21 +23,29 @@ class CounterStorageImpl : CountStorage {
     private var boiled4: Int = 0
 
     // Light Hoppy Ale
+    // IPA
     private var fermented1: Int = 0
     // Light Hoppy Lager
+    // Pilsner
     private var fermented2: Int = 0
     // Light Spicy Ale
+    // Witbier
     private var fermented3: Int = 0
     // Light Spicy Lager
+    // Spiced Lager
     private var fermented4: Int = 0
 
     // Dark Hoppy Ale
+    // Black IPA
     private var fermented5: Int = 0
     // Dark Hoppy Lager
+    // IPL
     private var fermented6: Int = 0
     // Dark Spicy Ale
+    // Dubbel
     private var fermented7: Int = 0
     // Dark Spicy Lager
+    // Bockbier
     private var fermented8: Int = 0
 
     override fun save(brewProcessResult: BrewProcessResult) {

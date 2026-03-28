@@ -24,35 +24,9 @@ class HopBoilingProcess(
         command.processType == BrewProcessType.BOIL && command.boilAddition == BoilAddition.HOPS
 
     override fun run(command: BrewProcessCommand): Flow<BrewProcessResult> = flow {
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.RECEIVED,
-                message = "Input received",
-            )
-        )
-
         require(command.temperature in 95.0..105.0) {
             "Temperature must be between 95 and 105 °C"
         }
-
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.VALIDATED,
-                message = "Input validated",
-            )
-        )
-
-        delay(2000)
-
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.BOILING,
-                message = "Hop boiling started",
-            )
-        )
 
         delay(1000)
 

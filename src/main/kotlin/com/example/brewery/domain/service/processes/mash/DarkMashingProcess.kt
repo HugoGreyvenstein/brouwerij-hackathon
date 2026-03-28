@@ -24,14 +24,6 @@ class DarkMashingProcess(
         command.processType == BrewProcessType.MASH && command.maltKind == MaltKind.DARK
 
     override fun run(command: BrewProcessCommand): Flow<BrewProcessResult> = flow {
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.RECEIVED,
-                message = "Input received",
-            )
-        )
-
         require(command.temperature in 65.0..70.0) {
             "Temperature must be between 65 and 70 °C"
         }
@@ -39,25 +31,7 @@ class DarkMashingProcess(
             "Dark brewing requires DARK malt type"
         }
 
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.VALIDATED,
-                message = "Input validated",
-            )
-        )
-
-        delay(500)
-
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.FERMENTING,
-                message = "Dark malt mashing started",
-            )
-        )
-
-        delay(1000)
+        delay(3000)
 
         val result = BrewProcessResult(
             batchId = command.batchId,
