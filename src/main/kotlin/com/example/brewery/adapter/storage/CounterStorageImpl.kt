@@ -51,18 +51,19 @@ class CounterStorageImpl : CountStorage {
         } else if (beerStyle == BeerStyle.Hoppy || beerStyle == BeerStyle.Spicy) {
             if (mashed1 < 1 && mashed2 < 1) {
                 throw Exception("Not enough mashes to perform a boil, please mash more")
-            } else if (mashed1 > mashed2) {
+            }
+            if (mashed1 > 0) {
                 mashed1 -= 1
                 if (beerStyle == BeerStyle.Hoppy) {
                     boiled1 += 1
                 } else {
-                    boiled3 += 1
+                    boiled2 += 1
                 }
                 setAllValues(brewProcessResult)
             } else {
                 mashed2 -= 1
                 if (beerStyle == BeerStyle.Hoppy) {
-                    boiled2 += 1
+                    boiled3 += 1
                 } else {
                     boiled4 += 1
                 }
@@ -114,7 +115,7 @@ class CounterStorageImpl : CountStorage {
     }
 
 
-    private fun setAllValues(result: BrewProcessResult) {
+    override fun setAllValues(result: BrewProcessResult) {
         result.mashed1 = mashed1
         result.mashed2 = mashed2
 

@@ -5,4 +5,5 @@ import com.example.brewery.domain.model.BrewProcessResult
 
 interface CountStorage {
     fun save(brewProcessResult: BrewProcessResult)
+    fun setAllValues(result: BrewProcessResult)
 }

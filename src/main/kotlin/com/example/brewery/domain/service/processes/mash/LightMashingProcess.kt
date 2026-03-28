@@ -69,12 +69,13 @@ class LightMashingProcess(
         println("Result with updated values: $result")
         emit(result)
     }.catch { exception ->
-        emit(
-            BrewProcessResult(
-                batchId = command.batchId,
-                stage = BrewProcessStage.FAILED,
-                message = exception.message ?: "Brewing process failed",
-            )
+        val result = BrewProcessResult(
+            batchId = command.batchId,
+            stage = BrewProcessStage.FAILED,
+            message = exception.message ?: "Brewing process failed",
         )
+        counterStorage.setAllValues(result)
+        println("Result with updated values: $result")
+        emit(result)
     }
 }
